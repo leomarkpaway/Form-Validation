@@ -2,9 +2,7 @@ package com.leomarkpaway.formvalidation
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -78,7 +76,7 @@ class FormViewModel : ViewModel() {
         val isValid = !(_fullName.value.isNullOrBlank() || !fullNameRegex.matches(_fullName.value!!)) &&
                 !(_email.value.isNullOrBlank() || !Patterns.EMAIL_ADDRESS.matcher(_email.value!!).matches()) &&
                 !(_mobileNumber.value.isNullOrBlank() || !_mobileNumber.value!!.matches(mobileRegex)) &&
-                (_age.value ?: 0) <= 18 &&
+                (_age.value ?: 0) >= 18 &&
                 !(_gender.value.isNullOrBlank() || _gender.value == "Select Gender")
 
         _isFormValid.value = isValid
@@ -95,10 +93,8 @@ class FormViewModel : ViewModel() {
                     age = _age.value!!,
                     gender = _gender.value!!
                 )
-                Log.d("qwe", "user ${user}")
                 if (_isFormValid.value == true) {
                     val result = RetrofitClient.apiService.submitForm(user)
-                    Log.d("qwe", "response ${_response.value}")
                     if (result.isSuccessful) {
                         _response.value = result.body()
                     } else {

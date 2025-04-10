@@ -1,7 +1,6 @@
 package com.leomarkpaway.formvalidation
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
@@ -67,9 +66,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Optional: handle case where nothing is selected
-            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
 
@@ -109,8 +106,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.age.observe(this@MainActivity) {
             ageTextView.text = getString(R.string.age, it.toString())
             age = it ?: 0
-            if (age <= 18) dateOfBirthTextInputLayout.helperText = "You must be 18 or older"
-
+            if (age < 18) dateOfBirthTextInputLayout.helperText = "You must be 18 or older"
         }
         viewModel.gender.observe(this@MainActivity) { gender ->
             this@MainActivity.gender = gender
@@ -118,7 +114,6 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.isFormValid.observe(this@MainActivity) {
             isValidForm = it
-            Log.d("qwe", "isValidForm $isValidForm")
         }
     }
 

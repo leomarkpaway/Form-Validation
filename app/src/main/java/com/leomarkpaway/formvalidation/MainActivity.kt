@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import com.leomarkpaway.formvalidation.databinding.ActivityMainBinding
+import com.leomarkpaway.formvalidation.util.showDialog
 import com.leomarkpaway.formvalidation.util.showToast
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setupDatePicker()
         setupTextHelper()
         onClickSubmitButton()
+        observeResponse()
     }
 
     private fun setupForm() = with(binding) {
@@ -123,6 +125,17 @@ class MainActivity : AppCompatActivity() {
             if (!isValidForm) showToast("Please check if there's a invalid/blank input")
             else viewModel.submitForm()
             viewModel.submitForm()
+        }
+    }
+
+    private fun observeResponse() {
+        viewModel.response.observe(this) { response ->
+            if (response.code == 405) {
+                this@MainActivity.showDialog("Error", "response error code ${response.code}")
+            }
+            if (response.user != null) {
+                this@MainActivity.showDialog("Success", "${response.user}")
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.leomarkpaway.formvalidation
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -95,14 +96,15 @@ class FormViewModel : ViewModel() {
                 )
                 if (_isFormValid.value == true) {
                     val result = RetrofitClient.apiService.submitForm(user)
+                    val responseCode = result.code()
                     if (result.isSuccessful) {
                         _response.value = result.body()
                     } else {
-                        _response.value = ApiResponse("error", "Request failed", null)
+                        _response.value = ApiResponse(responseCode,"error", "Request failed", null)
                     }
                 }
             } catch (e: Exception) {
-                _response.value = ApiResponse("error", "Network Error: ${e.message}", null)
+                _response.value = ApiResponse(0,"error", "Network Error: ${e.message}", null)
             }
         }
     }

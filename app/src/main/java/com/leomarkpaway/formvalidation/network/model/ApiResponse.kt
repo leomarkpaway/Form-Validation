@@ -1,6 +1,7 @@
 package com.leomarkpaway.formvalidation.network.model
 
 data class ApiResponse(
+    val code: Int,
     val status: String,
     val message: String,
     val user: User?

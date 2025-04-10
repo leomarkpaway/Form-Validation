@@ -3,6 +3,8 @@ package com.leomarkpaway.formvalidation
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -47,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupDatePicker() {
         binding.dateOfBirthEditText.setOnClickListener {
             viewModel.showDatePicker(this)
@@ -58,6 +59,18 @@ class MainActivity : AppCompatActivity() {
         val genders = listOf("Select Gender", "Male", "Female")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, genders)
         binding.genderSpinner.adapter = adapter
+        binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedGender = parent.getItemAtPosition(position).toString()
+                if (selectedGender != "Select Gender") {
+                    viewModel.updateGender(selectedGender)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Optional: handle case where nothing is selected
+            }
+        }
     }
 
     private fun setupTextHelper() = with(binding) {
@@ -100,18 +113,21 @@ class MainActivity : AppCompatActivity() {
 
         }
         viewModel.gender.observe(this@MainActivity) { gender ->
+            this@MainActivity.gender = gender
             if (gender == "Select Gender") showToast("Please select gender")
         }
         viewModel.isFormValid.observe(this@MainActivity) {
             isValidForm = it
+            Log.d("qwe", "isValidForm $isValidForm")
         }
     }
 
     private fun onClickSubmitButton() {
         binding.submitButton.setOnClickListener {
-            if (!isValidForm) showToast("Please check if there's a invalid/blank input")
-            viewModel.updateGender(gender)
             viewModel.validateForm()
+            if (!isValidForm) showToast("Please check if there's a invalid/blank input")
+            else viewModel.submitForm()
+            viewModel.submitForm()
         }
     }
 

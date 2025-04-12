@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 gender = parent.getItemAtPosition(position).toString()
+                binding.genderErrorHelperIndicator.visibility = View.GONE
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -105,10 +106,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.age.observe(this@MainActivity) {
             ageTextView.text = getString(R.string.age, it.toString())
             age = it ?: 0
-            if (age < 18) dateOfBirthTextInputLayout.helperText = "You must be 18 or older"
+            dateOfBirthTextInputLayout.helperText = if (age < 18)  "You must be 18 or older" else ""
         }
         viewModel.gender.observe(this@MainActivity) { gender ->
-            Log.d("qwe", "gender $gender")
             this@MainActivity.gender = gender
             genderErrorHelperIndicator.visibility =
                 if (gender == "Select Gender" && !isValidForm) View.VISIBLE else View.GONE

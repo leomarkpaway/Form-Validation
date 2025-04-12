@@ -2,7 +2,6 @@ package com.leomarkpaway.formvalidation
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

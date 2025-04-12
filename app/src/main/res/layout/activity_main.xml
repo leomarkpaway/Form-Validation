@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
                 app:errorEnabled="true"
+                app:helperTextTextColor="@color/red"
                 app:hintEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -35,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Email Address"
                 app:errorEnabled="true"
+                app:helperTextTextColor="@color/red"
                 app:hintEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -50,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Mobile Number"
                 app:errorEnabled="true"
+                app:helperTextTextColor="@color/red"
                 app:hintEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -65,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Date of Birth"
                 app:errorEnabled="true"
+                app:helperTextTextColor="@color/red"
                 app:hintEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -88,6 +92,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/gender_error_helper_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Please select gender"
+                android:textColor="@color/red"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/submitButton"

@@ -62,10 +62,7 @@ class MainActivity : AppCompatActivity() {
         binding.genderSpinner.adapter = adapter
         binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedGender = parent.getItemAtPosition(position).toString()
-                if (selectedGender != "Select Gender") {
-                    viewModel.updateGender(selectedGender)
-                }
+                gender = parent.getItemAtPosition(position).toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -111,8 +108,10 @@ class MainActivity : AppCompatActivity() {
             if (age < 18) dateOfBirthTextInputLayout.helperText = "You must be 18 or older"
         }
         viewModel.gender.observe(this@MainActivity) { gender ->
+            Log.d("qwe", "gender $gender")
             this@MainActivity.gender = gender
-            if (gender == "Select Gender") showToast("Please select gender")
+            genderErrorHelperIndicator.visibility =
+                if (gender == "Select Gender" && !isValidForm) View.VISIBLE else View.GONE
         }
         viewModel.isFormValid.observe(this@MainActivity) {
             isValidForm = it
@@ -121,10 +120,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun onClickSubmitButton() {
         binding.submitButton.setOnClickListener {
+            viewModel.updateGender(gender)
             viewModel.validateForm()
             if (!isValidForm) showToast("Please check if there's a invalid/blank input")
             else viewModel.submitForm()
-            viewModel.submitForm()
         }
     }
 

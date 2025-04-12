@@ -95,7 +95,7 @@ class FormViewModel : ViewModel() {
                     gender = _gender.value!!
                 )
                 if (_isFormValid.value == true) {
-                    val result = RetrofitClient.apiService.submitForm(user)
+                    val result = RetrofitClient.apiService.submitForm()
                     val responseCode = result.code()
                     if (result.isSuccessful) {
                         _response.value = result.body()

@@ -129,11 +129,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeResponse() {
         viewModel.response.observe(this) { response ->
-            if (response.code == 405) {
-                this@MainActivity.showDialog("Error", "response error code ${response.code}")
-            }
-            if (response.user != null) {
-                this@MainActivity.showDialog("Success", "${response.user}")
+            if (response.user != null && response.status == "success") {
+                val user = response.user
+                val userDetailsString = getString(
+                    R.string.user_details,
+                    user.fullName,
+                    user.email,
+                    user.mobile,
+                    user.dateOfBirth,
+                    user.age.toString(),
+                    user.gender
+                )
+                this@MainActivity.showDialog(response.message, userDetailsString)
+            } else {
+                this@MainActivity.showDialog(response.status, response.message)
             }
         }
     }

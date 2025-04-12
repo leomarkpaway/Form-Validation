@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FormValidation</string>
     <string name="age">Age: %1$s</string>
+    <string name="user_details">Full Name: %1$s \nEmail: %2$s \nMobile #: %3$s \nDate of Birth: %4$s \nAge: %5$s \nGender: %6$s</string>
 </resources>

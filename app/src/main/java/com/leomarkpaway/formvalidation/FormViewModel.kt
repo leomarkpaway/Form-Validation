@@ -96,15 +96,15 @@ class FormViewModel : ViewModel() {
                 )
                 if (_isFormValid.value == true) {
                     val result = RetrofitClient.apiService.submitForm()
-                    val responseCode = result.code()
                     if (result.isSuccessful) {
                         _response.value = result.body()
                     } else {
-                        _response.value = ApiResponse(responseCode,"error", "Request failed", null)
+                        _response.value = ApiResponse("Error", "Request failed", null)
                     }
                 }
             } catch (e: Exception) {
-                _response.value = ApiResponse(0,"error", "Network Error: ${e.message}", null)
+                val errorMessage = if (e.message != null) e.message != null else "Oops! There something wrong"
+                _response.value = ApiResponse("Error", "Network Error: $errorMessage", null)
             }
         }
     }
